@@ -24,12 +24,93 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository with TypeORM integration and PostgreSQL database for load testing purposes.
+
+## Database Setup
+
+This project includes a PostgreSQL database with TypeORM integration and a pre-configured tasks table.
+
+### Prerequisites
+
+- Docker and Docker Compose installed
+- Node.js and npm installed
+
+### Database Configuration
+
+The project uses the following database configuration:
+
+- **Host**: postgres (Docker container)
+- **Port**: 5432
+- **Database**: loadtesting
+- **Username**: postgres
+- **Password**: postgres123
+
+### Database Schema
+
+The `tasks` table includes:
+
+- **id**: INTEGER, PRIMARY KEY, AUTO_INCREMENT
+- **name**: VARCHAR(255), NOT NULL
+- **description**: TEXT, NULLABLE
+- **isCompleted**: BOOLEAN, NOT NULL, DEFAULT false
+- **createdAt**: TIMESTAMP, auto-populated
+- **updatedAt**: TIMESTAMP, auto-updated
+- **deletedAt**: TIMESTAMP for soft delete functionality
+
+### Quick Start
+
+```bash
+# Start the database and application
+docker-compose up -d
+
+# Wait for containers to be ready (about 15-20 seconds)
+
+# Seed the database with sample tasks
+docker exec nestjs-load-testing-app npm run seed
+
+# Verify the data
+docker exec postgres-db psql -U postgres -d loadtesting -c "SELECT * FROM tasks;"
+```
+
+### Database Seeding
+
+The project includes a seeder that populates the database with 10 sample tasks:
+
+```bash
+# Run the seeder
+npm run seed
+```
+
+**Note**: The seeder should be run from within the Docker container using the docker exec command shown above.
 
 ## Project setup
 
 ```bash
 $ npm install
+```
+
+## Available Scripts
+
+```bash
+# Development
+$ npm run start          # Start the application
+$ npm run start:dev      # Start in watch mode
+$ npm run start:debug    # Start in debug mode
+$ npm run start:prod     # Start in production mode
+
+# Database
+$ npm run seed           # Seed the database with sample tasks
+
+# Testing
+$ npm run test           # Run unit tests
+$ npm run test:watch     # Run tests in watch mode
+$ npm run test:cov       # Run tests with coverage
+$ npm run test:e2e       # Run end-to-end tests
+
+# Build
+$ npm run build          # Build the application
+$ npm run lint           # Lint the code
+$ npm run format         # Format the code
 ```
 
 ## Compile and run the project

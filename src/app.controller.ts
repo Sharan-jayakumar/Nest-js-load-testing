@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/api/calculate-date')
+  @Get('/calculate-date')
   calculateAge(@Query('date') date: string): {
     years: number;
     months: number;
